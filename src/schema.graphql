@@ -11,6 +11,7 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload!
   deleteUser(id: ID!): User!
   updateUser(id: ID!, name: String!, email: String!, class: String!): User!
+  changePassword(id: ID!, password: String!): String!
 }
 
 type AuthPayload {

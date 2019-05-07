@@ -34,8 +34,8 @@ const resolvers = {
     deleteUser(root, args, cxt) {
       return cxt.prisma.deleteUser({ id: args.id });
     },
-    updateUser(root, args, cxt) {
-      return cxt.prisma.updateUser({
+    async updateUser(root, args, cxt) {
+      return await cxt.prisma.updateUser({
         where: { id: args.id },
         data: {
           name: args.name,
@@ -43,6 +43,16 @@ const resolvers = {
           class: args.class
         }
       });
+    },
+    async changePassword(root, args, cxt) {
+      const password = await bcrypt.hash(args.password, 10);
+      await cxt.prisma.updateUser({
+        where: { id: args.id },
+        data: {
+          password
+        }
+      });
+      return 'Password successfully changed!';
     }
   },
   User: {
