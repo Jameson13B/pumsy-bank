@@ -1,0 +1,17 @@
+type User {
+  id: ID! @id
+  name: String!
+  email: String! @unique
+  password: String!
+  balance: Int! @default(value: 0)
+  log: [Entry!]!
+  class: String! @default(value: "main")
+}
+
+type Entry {
+  id: ID! @id
+  change: String!
+  description: String!
+  postedBy: User!
+  createdAt: DateTime! @createdAt
+}
