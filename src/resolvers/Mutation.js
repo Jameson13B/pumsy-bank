@@ -2,14 +2,14 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { APP_SECRET, getUserId } = require('../utils');
 
-const createUser = async (root, args, cxt) => {
+const createUser = async (root, args, ctx) => {
   const password = await bcrypt.hash(args.password, 10);
-  const user = await cxt.prisma.createUser({ ...args, password });
+  const user = await ctx.prisma.createUser({ ...args, password });
   const token = jwt.sign({ userId: user.id }, APP_SECRET);
   return { token, user };
 };
-const login = async (root, args, cxt) => {
-  const user = await cxt.prisma.user({ email: args.email });
+const login = async (root, args, ctx) => {
+  const user = await ctx.prisma.user({ email: args.email });
   if (!user) throw new Error(`No user found with email: ${args.email}`);
 
   const valid = await bcrypt.compare(args.password, user.password);
@@ -18,11 +18,11 @@ const login = async (root, args, cxt) => {
   const token = jwt.sign({ userId: user.id }, APP_SECRET);
   return { token, user };
 };
-const deleteUser = (root, args, cxt) => {
-  return cxt.prisma.deleteUser({ id: args.id });
+const deleteUser = (root, args, ctx) => {
+  return ctx.prisma.deleteUser({ id: args.id });
 };
-const updateUser = async (root, args, cxt) => {
-  return await cxt.prisma.updateUser({
+const updateUser = async (root, args, ctx) => {
+  return await ctx.prisma.updateUser({
     where: { id: args.id },
     data: {
       name: args.name,
@@ -31,9 +31,9 @@ const updateUser = async (root, args, cxt) => {
     }
   });
 };
-const changePassword = async (root, args, cxt) => {
+const changePassword = async (root, args, ctx) => {
   const password = await bcrypt.hash(args.password, 10);
-  await cxt.prisma.updateUser({
+  await ctx.prisma.updateUser({
     where: { id: args.id },
     data: {
       password
@@ -41,10 +41,10 @@ const changePassword = async (root, args, cxt) => {
   });
   return 'Password successfully changed!';
 };
-const addPoints = async (root, args, cxt) => {
+const addPoints = async (root, args, ctx) => {
   // Update User Log and Balance
-  const balance = await cxt.prisma.user({ id: args.id }).balance();
-  const user = await cxt.prisma.updateUser({
+  const balance = await ctx.prisma.user({ id: args.id }).balance();
+  const user = await ctx.prisma.updateUser({
     where: { id: args.id },
     data: {
       balance: balance + args.points,
@@ -58,10 +58,10 @@ const addPoints = async (root, args, cxt) => {
   });
   return user.balance;
 };
-const removePoints = async (root, args, cxt) => {
+const removePoints = async (root, args, ctx) => {
   // Update User Log and Balance
-  const balance = await cxt.prisma.user({ id: args.id }).balance();
-  const user = await cxt.prisma.updateUser({
+  const balance = await ctx.prisma.user({ id: args.id }).balance();
+  const user = await ctx.prisma.updateUser({
     where: { id: args.id },
     data: {
       balance: balance - args.points,
