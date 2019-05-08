@@ -53,6 +53,23 @@ const resolvers = {
         }
       });
       return 'Password successfully changed!';
+    },
+    async addPoints(root, args, cxt) {
+      // Update User Log and Balance
+      const balance = await cxt.prisma.user({ id: args.id }).balance();
+      const user = await cxt.prisma.updateUser({
+        where: { id: args.id },
+        data: {
+          balance: balance + args.points,
+          log: {
+            create: {
+              change: `+${args.points}`,
+              description: `${args.description}`
+            }
+          }
+        }
+      });
+      return user.balance;
     }
   },
   User: {
