@@ -3,7 +3,7 @@ scalar DateTime
 type Query {
   users: [User!]!
   user(id: ID!): User!
-  usersClass(class: String!): [User!]!
+  usersByClass(class: String!): [User!]!
 }
 
 type Mutation {

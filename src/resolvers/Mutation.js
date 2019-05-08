@@ -1,26 +1,26 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { APP_SECRET, getUserId } = require('../utils');
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const { APP_SECRET, getUserId } = require('../utils')
 
 const createUser = async (root, args, ctx) => {
-  const password = await bcrypt.hash(args.password, 10);
-  const user = await ctx.prisma.createUser({ ...args, password });
-  const token = jwt.sign({ userId: user.id }, APP_SECRET);
-  return { token, user };
-};
+  const password = await bcrypt.hash(args.password, 10)
+  const user = await ctx.prisma.createUser({ ...args, password })
+  const token = jwt.sign({ userId: user.id }, APP_SECRET)
+  return { token, user }
+}
 const login = async (root, args, ctx) => {
-  const user = await ctx.prisma.user({ email: args.email });
-  if (!user) throw new Error(`No user found with email: ${args.email}`);
+  const user = await ctx.prisma.user({ email: args.email })
+  if (!user) throw new Error(`No user found with email: ${args.email}`)
 
-  const valid = await bcrypt.compare(args.password, user.password);
-  if (!valid) throw new Error('Invalid password');
+  const valid = await bcrypt.compare(args.password, user.password)
+  if (!valid) throw new Error('Invalid password')
 
-  const token = jwt.sign({ userId: user.id }, APP_SECRET);
-  return { token, user };
-};
+  const token = jwt.sign({ userId: user.id }, APP_SECRET)
+  return { token, user }
+}
 const deleteUser = (root, args, ctx) => {
-  return ctx.prisma.deleteUser({ id: args.id });
-};
+  return ctx.prisma.deleteUser({ id: args.id })
+}
 const updateUser = async (root, args, ctx) => {
   return await ctx.prisma.updateUser({
     where: { id: args.id },
@@ -29,21 +29,21 @@ const updateUser = async (root, args, ctx) => {
       email: args.email,
       class: args.class
     }
-  });
-};
+  })
+}
 const changePassword = async (root, args, ctx) => {
-  const password = await bcrypt.hash(args.password, 10);
+  const password = await bcrypt.hash(args.password, 10)
   await ctx.prisma.updateUser({
     where: { id: args.id },
     data: {
       password
     }
-  });
-  return 'Password successfully changed!';
-};
+  })
+  return 'Password successfully changed!'
+}
 const addPoints = async (root, args, ctx) => {
   // Update User Log and Balance
-  const balance = await ctx.prisma.user({ id: args.id }).balance();
+  const balance = await ctx.prisma.user({ id: args.id }).balance()
   const user = await ctx.prisma.updateUser({
     where: { id: args.id },
     data: {
@@ -55,12 +55,12 @@ const addPoints = async (root, args, ctx) => {
         }
       }
     }
-  });
-  return user.balance;
-};
+  })
+  return user.balance
+}
 const removePoints = async (root, args, ctx) => {
   // Update User Log and Balance
-  const balance = await ctx.prisma.user({ id: args.id }).balance();
+  const balance = await ctx.prisma.user({ id: args.id }).balance()
   const user = await ctx.prisma.updateUser({
     where: { id: args.id },
     data: {
@@ -72,9 +72,9 @@ const removePoints = async (root, args, ctx) => {
         }
       }
     }
-  });
-  return user.balance;
-};
+  })
+  return user.balance
+}
 
 module.exports = {
   createUser,
@@ -84,4 +84,4 @@ module.exports = {
   changePassword,
   addPoints,
   removePoints
-};
+}
