@@ -18,9 +18,7 @@ const login = async (root, args, ctx) => {
   const token = jwt.sign({ userId: user.id }, APP_SECRET)
   return { token, user }
 }
-const deleteUser = (root, args, ctx) => {
-  return ctx.prisma.deleteUser({ id: args.id })
-}
+const deleteUser = (root, args, ctx) => ctx.prisma.deleteUser({ id: args.id })
 const updateUser = async (root, args, ctx) => {
   return await ctx.prisma.updateUser({
     where: { id: args.id },
@@ -44,7 +42,7 @@ const changePassword = async (root, args, ctx) => {
 const addPoints = async (root, args, ctx) => {
   // Update User Log and Balance
   const balance = await ctx.prisma.user({ id: args.id }).balance()
-  const user = await ctx.prisma.updateUser({
+  return await ctx.prisma.updateUser({
     where: { id: args.id },
     data: {
       balance: balance + args.points,
@@ -56,12 +54,11 @@ const addPoints = async (root, args, ctx) => {
       }
     }
   })
-  return user.balance
 }
 const removePoints = async (root, args, ctx) => {
   // Update User Log and Balance
   const balance = await ctx.prisma.user({ id: args.id }).balance()
-  const user = await ctx.prisma.updateUser({
+  return await ctx.prisma.updateUser({
     where: { id: args.id },
     data: {
       balance: balance - args.points,
@@ -73,7 +70,22 @@ const removePoints = async (root, args, ctx) => {
       }
     }
   })
-  return user.balance
+}
+const purchase = async (root, args, ctx) => {
+  // Update User Log and Balance
+  const balance = await ctx.prisma.user({ id: args.id }).balance()
+  return await ctx.prisma.updateUser({
+    where: { id: args.id },
+    data: {
+      balance: balance - args.points,
+      log: {
+        create: {
+          change: `-${args.points}`,
+          description: `${args.description}`
+        }
+      }
+    }
+  })
 }
 
 module.exports = {
@@ -83,5 +95,6 @@ module.exports = {
   updateUser,
   changePassword,
   addPoints,
-  removePoints
+  removePoints,
+  purchase
 }

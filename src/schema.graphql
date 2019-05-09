@@ -12,8 +12,9 @@ type Mutation {
   deleteUser(id: ID!): User!
   updateUser(id: ID!, name: String!, email: String!, class: String!): User!
   changePassword(id: ID!, password: String!): String!
-  addPoints(id: ID!, points: Int!, description: String): Int!
-  removePoints(id: ID!, points: Int!, description: String): Int!
+  addPoints(id: ID!, points: Int!, description: String): User!
+  removePoints(id: ID!, points: Int!, description: String): User!
+  purchase(id: ID!, points: Int!, description: String): User!
 }
 
 type AuthPayload {
