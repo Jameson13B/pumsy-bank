@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { APP_SECRET, getUserId } = require('../utils')
+const { APP_SECRET, getUserId, sgMail, addMsg, removeMsg } = require('../utils')
 
 const createUser = async (root, args, ctx) => {
   const password = await bcrypt.hash(args.password, 10)
@@ -42,7 +42,8 @@ const changePassword = async (root, args, ctx) => {
 const addPoints = async (root, args, ctx) => {
   // Update User Log and Balance
   const balance = await ctx.prisma.user({ id: args.id }).balance()
-  return await ctx.prisma.updateUser({
+
+  const user = await ctx.prisma.updateUser({
     where: { id: args.id },
     data: {
       balance: balance + args.points,
@@ -54,11 +55,15 @@ const addPoints = async (root, args, ctx) => {
       }
     }
   })
+  // Create Message and send it
+  const msg = addMsg(user.email, user.name, args.points, args.description)
+  sgMail.send(msg)
+  return user
 }
 const removePoints = async (root, args, ctx) => {
   // Update User Log and Balance
   const balance = await ctx.prisma.user({ id: args.id }).balance()
-  return await ctx.prisma.updateUser({
+  const user = await ctx.prisma.updateUser({
     where: { id: args.id },
     data: {
       balance: balance - args.points,
@@ -70,6 +75,10 @@ const removePoints = async (root, args, ctx) => {
       }
     }
   })
+  // Create Message and send it
+  const msg = removeMsg(user.email, user.name, args.points, args.description)
+  sgMail.send(msg)
+  return user
 }
 const purchase = async (root, args, ctx) => {
   // Update User Log and Balance
