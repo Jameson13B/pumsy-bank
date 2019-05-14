@@ -25,6 +25,7 @@ const updateUser = async (root, args, ctx) => {
     data: {
       name: args.name,
       email: args.email,
+      parentEmail: args.parentEmail,
       class: args.class
     }
   })
@@ -42,7 +43,6 @@ const changePassword = async (root, args, ctx) => {
 const addPoints = async (root, args, ctx) => {
   // Update User Log and Balance
   const balance = await ctx.prisma.user({ id: args.id }).balance()
-
   const user = await ctx.prisma.updateUser({
     where: { id: args.id },
     data: {
@@ -55,9 +55,16 @@ const addPoints = async (root, args, ctx) => {
       }
     }
   })
-  // Create Message and send it
-  const msg = addMsg(user.email, user.name, args.points, args.description)
-  sgMail.send(msg)
+  if (user.parentEmail) {
+    // Create Message and send it
+    const msg = addMsg(
+      user.parentEmail,
+      user.name,
+      args.points,
+      args.description
+    )
+    sgMail.send(msg)
+  }
   return user
 }
 const removePoints = async (root, args, ctx) => {
@@ -75,9 +82,16 @@ const removePoints = async (root, args, ctx) => {
       }
     }
   })
-  // Create Message and send it
-  const msg = removeMsg(user.email, user.name, args.points, args.description)
-  sgMail.send(msg)
+  if (user.parentEmail) {
+    // Create Message and send it
+    const msg = removeMsg(
+      user.parentEmail,
+      user.name,
+      args.points,
+      args.description
+    )
+    sgMail.send(msg)
+  }
   return user
 }
 const purchase = async (root, args, ctx) => {

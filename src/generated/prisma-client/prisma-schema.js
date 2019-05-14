@@ -309,6 +309,7 @@ type User {
   id: ID!
   name: String!
   email: String!
+  parentEmail: String
   password: String!
   balance: Int!
   log(where: EntryWhereInput, orderBy: EntryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Entry!]
@@ -325,6 +326,7 @@ input UserCreateInput {
   id: ID
   name: String!
   email: String!
+  parentEmail: String
   password: String!
   balance: Int
   log: EntryCreateManyWithoutPostedByInput
@@ -340,6 +342,7 @@ input UserCreateWithoutLogInput {
   id: ID
   name: String!
   email: String!
+  parentEmail: String
   password: String!
   balance: Int
   class: String
@@ -357,6 +360,8 @@ enum UserOrderByInput {
   name_DESC
   email_ASC
   email_DESC
+  parentEmail_ASC
+  parentEmail_DESC
   password_ASC
   password_DESC
   balance_ASC
@@ -369,6 +374,7 @@ type UserPreviousValues {
   id: ID!
   name: String!
   email: String!
+  parentEmail: String
   password: String!
   balance: Int!
   class: String!
@@ -395,6 +401,7 @@ input UserSubscriptionWhereInput {
 input UserUpdateInput {
   name: String
   email: String
+  parentEmail: String
   password: String
   balance: Int
   log: EntryUpdateManyWithoutPostedByInput
@@ -404,6 +411,7 @@ input UserUpdateInput {
 input UserUpdateManyMutationInput {
   name: String
   email: String
+  parentEmail: String
   password: String
   balance: Int
   class: String
@@ -419,6 +427,7 @@ input UserUpdateOneRequiredWithoutLogInput {
 input UserUpdateWithoutLogDataInput {
   name: String
   email: String
+  parentEmail: String
   password: String
   balance: Int
   class: String
@@ -472,6 +481,20 @@ input UserWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  parentEmail: String
+  parentEmail_not: String
+  parentEmail_in: [String!]
+  parentEmail_not_in: [String!]
+  parentEmail_lt: String
+  parentEmail_lte: String
+  parentEmail_gt: String
+  parentEmail_gte: String
+  parentEmail_contains: String
+  parentEmail_not_contains: String
+  parentEmail_starts_with: String
+  parentEmail_not_starts_with: String
+  parentEmail_ends_with: String
+  parentEmail_not_ends_with: String
   password: String
   password_not: String
   password_in: [String!]

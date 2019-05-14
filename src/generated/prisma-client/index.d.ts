@@ -155,6 +155,8 @@ export type UserOrderByInput =
   | "name_DESC"
   | "email_ASC"
   | "email_DESC"
+  | "parentEmail_ASC"
+  | "parentEmail_DESC"
   | "password_ASC"
   | "password_DESC"
   | "balance_ASC"
@@ -197,6 +199,7 @@ export interface UserCreateInput {
   id?: ID_Input;
   name: String;
   email: String;
+  parentEmail?: String;
   password: String;
   balance?: Int;
   log?: EntryCreateManyWithoutPostedByInput;
@@ -206,6 +209,7 @@ export interface UserCreateInput {
 export interface UserUpdateInput {
   name?: String;
   email?: String;
+  parentEmail?: String;
   password?: String;
   balance?: Int;
   log?: EntryUpdateManyWithoutPostedByInput;
@@ -231,6 +235,7 @@ export interface UserSubscriptionWhereInput {
 export interface UserUpdateManyMutationInput {
   name?: String;
   email?: String;
+  parentEmail?: String;
   password?: String;
   balance?: Int;
   class?: String;
@@ -263,6 +268,7 @@ export interface UserCreateWithoutLogInput {
   id?: ID_Input;
   name: String;
   email: String;
+  parentEmail?: String;
   password: String;
   balance?: Int;
   class?: String;
@@ -322,6 +328,20 @@ export interface UserWhereInput {
   email_not_starts_with?: String;
   email_ends_with?: String;
   email_not_ends_with?: String;
+  parentEmail?: String;
+  parentEmail_not?: String;
+  parentEmail_in?: String[] | String;
+  parentEmail_not_in?: String[] | String;
+  parentEmail_lt?: String;
+  parentEmail_lte?: String;
+  parentEmail_gt?: String;
+  parentEmail_gte?: String;
+  parentEmail_contains?: String;
+  parentEmail_not_contains?: String;
+  parentEmail_starts_with?: String;
+  parentEmail_not_starts_with?: String;
+  parentEmail_ends_with?: String;
+  parentEmail_not_ends_with?: String;
   password?: String;
   password_not?: String;
   password_in?: String[] | String;
@@ -447,6 +467,7 @@ export interface EntryWhereInput {
 export interface UserUpdateWithoutLogDataInput {
   name?: String;
   email?: String;
+  parentEmail?: String;
   password?: String;
   balance?: Int;
   class?: String;
@@ -537,6 +558,7 @@ export interface UserPreviousValues {
   id: ID_Output;
   name: String;
   email: String;
+  parentEmail?: String;
   password: String;
   balance: Int;
   class: String;
@@ -548,6 +570,7 @@ export interface UserPreviousValuesPromise
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   email: () => Promise<String>;
+  parentEmail: () => Promise<String>;
   password: () => Promise<String>;
   balance: () => Promise<Int>;
   class: () => Promise<String>;
@@ -559,6 +582,7 @@ export interface UserPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
+  parentEmail: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   balance: () => Promise<AsyncIterator<Int>>;
   class: () => Promise<AsyncIterator<String>>;
@@ -667,6 +691,7 @@ export interface User {
   id: ID_Output;
   name: String;
   email: String;
+  parentEmail?: String;
   password: String;
   balance: Int;
   class: String;
@@ -676,6 +701,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   email: () => Promise<String>;
+  parentEmail: () => Promise<String>;
   password: () => Promise<String>;
   balance: () => Promise<Int>;
   log: <T = FragmentableArray<Entry>>(args?: {
@@ -696,6 +722,7 @@ export interface UserSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
+  parentEmail: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   balance: () => Promise<AsyncIterator<Int>>;
   log: <T = Promise<AsyncIterator<EntrySubscription>>>(args?: {
