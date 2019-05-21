@@ -4,7 +4,7 @@ type Query {
   users: [User!]!
   user(id: ID!): User!
   usersByClass(class: String!): [User!]!
-  purchases(filter: String): [Purchase!]!
+  purchases(start: DateTime, end: DateTime): [Purchase!]!
 }
 
 type Mutation {
@@ -20,6 +20,7 @@ type Mutation {
 
 type Subscription {
   dashboard: User!
+  purchase: Purchase!
 }
 
 type AuthPayload {
@@ -51,4 +52,5 @@ type Purchase {
   description: String!
   change: String!
   createdAt: DateTime!
+  postedBy: User!
 }

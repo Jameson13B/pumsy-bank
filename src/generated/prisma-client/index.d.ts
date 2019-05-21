@@ -215,19 +215,50 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface EntryUpdateInput {
-  change?: String;
-  description?: String;
-  postedBy?: UserUpdateOneRequiredWithoutLogInput;
+export interface UserUpdateWithoutLogDataInput {
+  name?: String;
+  email?: String;
+  parentEmail?: String;
+  password?: String;
+  balance?: Int;
+  class?: String;
 }
 
 export type EntryWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface UserUpsertWithoutLogInput {
-  update: UserUpdateWithoutLogDataInput;
-  create: UserCreateWithoutLogInput;
+export interface EntryUpdateManyWithoutPostedByInput {
+  create?: EntryCreateWithoutPostedByInput[] | EntryCreateWithoutPostedByInput;
+  delete?: EntryWhereUniqueInput[] | EntryWhereUniqueInput;
+  connect?: EntryWhereUniqueInput[] | EntryWhereUniqueInput;
+  set?: EntryWhereUniqueInput[] | EntryWhereUniqueInput;
+  disconnect?: EntryWhereUniqueInput[] | EntryWhereUniqueInput;
+  update?:
+    | EntryUpdateWithWhereUniqueWithoutPostedByInput[]
+    | EntryUpdateWithWhereUniqueWithoutPostedByInput;
+  upsert?:
+    | EntryUpsertWithWhereUniqueWithoutPostedByInput[]
+    | EntryUpsertWithWhereUniqueWithoutPostedByInput;
+  deleteMany?: EntryScalarWhereInput[] | EntryScalarWhereInput;
+  updateMany?:
+    | EntryUpdateManyWithWhereNestedInput[]
+    | EntryUpdateManyWithWhereNestedInput;
+}
+
+export interface EntryCreateManyWithoutPostedByInput {
+  create?: EntryCreateWithoutPostedByInput[] | EntryCreateWithoutPostedByInput;
+  connect?: EntryWhereUniqueInput[] | EntryWhereUniqueInput;
+}
+
+export interface UserUpdateDataInput {
+  name?: String;
+  email?: String;
+  parentEmail?: String;
+  password?: String;
+  balance?: Int;
+  log?: EntryUpdateManyWithoutPostedByInput;
+  class?: String;
 }
 
 export interface EntryWhereInput {
@@ -287,49 +318,11 @@ export interface EntryWhereInput {
   NOT?: EntryWhereInput[] | EntryWhereInput;
 }
 
-export interface EntryUpdateManyWithoutPostedByInput {
-  create?: EntryCreateWithoutPostedByInput[] | EntryCreateWithoutPostedByInput;
-  delete?: EntryWhereUniqueInput[] | EntryWhereUniqueInput;
-  connect?: EntryWhereUniqueInput[] | EntryWhereUniqueInput;
-  set?: EntryWhereUniqueInput[] | EntryWhereUniqueInput;
-  disconnect?: EntryWhereUniqueInput[] | EntryWhereUniqueInput;
-  update?:
-    | EntryUpdateWithWhereUniqueWithoutPostedByInput[]
-    | EntryUpdateWithWhereUniqueWithoutPostedByInput;
-  upsert?:
-    | EntryUpsertWithWhereUniqueWithoutPostedByInput[]
-    | EntryUpsertWithWhereUniqueWithoutPostedByInput;
-  deleteMany?: EntryScalarWhereInput[] | EntryScalarWhereInput;
-  updateMany?:
-    | EntryUpdateManyWithWhereNestedInput[]
-    | EntryUpdateManyWithWhereNestedInput;
-}
-
-export interface PurchaseCreateInput {
-  id?: ID_Input;
-  description: String;
-  change: String;
-}
-
-export interface UserUpdateInput {
-  name?: String;
-  email?: String;
-  parentEmail?: String;
-  password?: String;
-  balance?: Int;
-  log?: EntryUpdateManyWithoutPostedByInput;
-  class?: String;
-}
-
-export interface EntryUpdateManyMutationInput {
-  change?: String;
-  description?: String;
-}
-
-export interface EntryCreateWithoutPostedByInput {
-  id?: ID_Input;
-  change: String;
-  description: String;
+export interface UserUpdateOneRequiredInput {
+  create?: UserCreateInput;
+  update?: UserUpdateDataInput;
+  upsert?: UserUpsertNestedInput;
+  connect?: UserWhereUniqueInput;
 }
 
 export interface PurchaseSubscriptionWhereInput {
@@ -343,11 +336,6 @@ export interface PurchaseSubscriptionWhereInput {
   NOT?: PurchaseSubscriptionWhereInput[] | PurchaseSubscriptionWhereInput;
 }
 
-export interface EntryCreateManyWithoutPostedByInput {
-  create?: EntryCreateWithoutPostedByInput[] | EntryCreateWithoutPostedByInput;
-  connect?: EntryWhereUniqueInput[] | EntryWhereUniqueInput;
-}
-
 export interface UserUpdateManyMutationInput {
   name?: String;
   email?: String;
@@ -357,9 +345,26 @@ export interface UserUpdateManyMutationInput {
   class?: String;
 }
 
+export interface PurchaseUpdateManyMutationInput {
+  description?: String;
+  change?: String;
+}
+
+export interface EntryCreateInput {
+  id?: ID_Input;
+  change: String;
+  description: String;
+  postedBy: UserCreateOneWithoutLogInput;
+}
+
 export type PurchaseWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
+
+export interface UserCreateOneWithoutLogInput {
+  create?: UserCreateWithoutLogInput;
+  connect?: UserWhereUniqueInput;
+}
 
 export interface PurchaseWhereInput {
   id?: ID_Input;
@@ -412,32 +417,10 @@ export interface PurchaseWhereInput {
   createdAt_lte?: DateTimeInput;
   createdAt_gt?: DateTimeInput;
   createdAt_gte?: DateTimeInput;
+  postedBy?: UserWhereInput;
   AND?: PurchaseWhereInput[] | PurchaseWhereInput;
   OR?: PurchaseWhereInput[] | PurchaseWhereInput;
   NOT?: PurchaseWhereInput[] | PurchaseWhereInput;
-}
-
-export interface EntryCreateInput {
-  id?: ID_Input;
-  change: String;
-  description: String;
-  postedBy: UserCreateOneWithoutLogInput;
-}
-
-export interface EntryUpsertWithWhereUniqueWithoutPostedByInput {
-  where: EntryWhereUniqueInput;
-  update: EntryUpdateWithoutPostedByDataInput;
-  create: EntryCreateWithoutPostedByInput;
-}
-
-export interface UserCreateOneWithoutLogInput {
-  create?: UserCreateWithoutLogInput;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface EntryUpdateWithWhereUniqueWithoutPostedByInput {
-  where: EntryWhereUniqueInput;
-  data: EntryUpdateWithoutPostedByDataInput;
 }
 
 export interface UserCreateWithoutLogInput {
@@ -448,40 +431,6 @@ export interface UserCreateWithoutLogInput {
   password: String;
   balance?: Int;
   class?: String;
-}
-
-export interface UserSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: UserWhereInput;
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-}
-
-export interface UserCreateInput {
-  id?: ID_Input;
-  name: String;
-  email: String;
-  parentEmail?: String;
-  password: String;
-  balance?: Int;
-  log?: EntryCreateManyWithoutPostedByInput;
-  class?: String;
-}
-
-export interface EntryUpdateManyDataInput {
-  change?: String;
-  description?: String;
-}
-
-export interface UserUpdateOneRequiredWithoutLogInput {
-  create?: UserCreateWithoutLogInput;
-  update?: UserUpdateWithoutLogDataInput;
-  upsert?: UserUpsertWithoutLogInput;
-  connect?: UserWhereUniqueInput;
 }
 
 export interface EntryScalarWhereInput {
@@ -540,14 +489,64 @@ export interface EntryScalarWhereInput {
   NOT?: EntryScalarWhereInput[] | EntryScalarWhereInput;
 }
 
+export interface EntryUpdateInput {
+  change?: String;
+  description?: String;
+  postedBy?: UserUpdateOneRequiredWithoutLogInput;
+}
+
+export interface EntryUpdateWithoutPostedByDataInput {
+  change?: String;
+  description?: String;
+}
+
+export interface UserUpdateOneRequiredWithoutLogInput {
+  create?: UserCreateWithoutLogInput;
+  update?: UserUpdateWithoutLogDataInput;
+  upsert?: UserUpsertWithoutLogInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface EntryUpdateWithWhereUniqueWithoutPostedByInput {
+  where: EntryWhereUniqueInput;
+  data: EntryUpdateWithoutPostedByDataInput;
+}
+
 export interface PurchaseUpdateInput {
   description?: String;
   change?: String;
+  postedBy?: UserUpdateOneRequiredInput;
 }
 
-export interface PurchaseUpdateManyMutationInput {
-  description?: String;
+export interface EntrySubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: EntryWhereInput;
+  AND?: EntrySubscriptionWhereInput[] | EntrySubscriptionWhereInput;
+  OR?: EntrySubscriptionWhereInput[] | EntrySubscriptionWhereInput;
+  NOT?: EntrySubscriptionWhereInput[] | EntrySubscriptionWhereInput;
+}
+
+export interface UserUpsertWithoutLogInput {
+  update: UserUpdateWithoutLogDataInput;
+  create: UserCreateWithoutLogInput;
+}
+
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface EntryUpdateManyMutationInput {
   change?: String;
+  description?: String;
+}
+
+export interface EntryUpdateManyWithWhereNestedInput {
+  where: EntryScalarWhereInput;
+  data: EntryUpdateManyDataInput;
 }
 
 export interface UserWhereInput {
@@ -651,43 +650,107 @@ export interface UserWhereInput {
   NOT?: UserWhereInput[] | UserWhereInput;
 }
 
-export interface UserUpdateWithoutLogDataInput {
-  name?: String;
-  email?: String;
-  parentEmail?: String;
-  password?: String;
-  balance?: Int;
-  class?: String;
-}
-
-export interface EntryUpdateWithoutPostedByDataInput {
-  change?: String;
-  description?: String;
-}
-
-export interface EntryUpdateManyWithWhereNestedInput {
-  where: EntryScalarWhereInput;
-  data: EntryUpdateManyDataInput;
-}
-
-export interface EntrySubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: EntryWhereInput;
-  AND?: EntrySubscriptionWhereInput[] | EntrySubscriptionWhereInput;
-  OR?: EntrySubscriptionWhereInput[] | EntrySubscriptionWhereInput;
-  NOT?: EntrySubscriptionWhereInput[] | EntrySubscriptionWhereInput;
-}
-
 export type UserWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
   email?: String;
 }>;
 
+export interface UserCreateInput {
+  id?: ID_Input;
+  name: String;
+  email: String;
+  parentEmail?: String;
+  password: String;
+  balance?: Int;
+  log?: EntryCreateManyWithoutPostedByInput;
+  class?: String;
+}
+
+export interface UserCreateOneInput {
+  create?: UserCreateInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface PurchaseCreateInput {
+  id?: ID_Input;
+  description: String;
+  change: String;
+  postedBy: UserCreateOneInput;
+}
+
+export interface EntryCreateWithoutPostedByInput {
+  id?: ID_Input;
+  change: String;
+  description: String;
+}
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: UserWhereInput;
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+}
+
+export interface EntryUpsertWithWhereUniqueWithoutPostedByInput {
+  where: EntryWhereUniqueInput;
+  update: EntryUpdateWithoutPostedByDataInput;
+  create: EntryCreateWithoutPostedByInput;
+}
+
+export interface EntryUpdateManyDataInput {
+  change?: String;
+  description?: String;
+}
+
+export interface UserUpdateInput {
+  name?: String;
+  email?: String;
+  parentEmail?: String;
+  password?: String;
+  balance?: Int;
+  log?: EntryUpdateManyWithoutPostedByInput;
+  class?: String;
+}
+
 export interface NodeNode {
   id: ID_Output;
+}
+
+export interface BatchPayload {
+  count: Long;
+}
+
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface EntryEdge {
+  node: Entry;
+  cursor: String;
+}
+
+export interface EntryEdgePromise extends Promise<EntryEdge>, Fragmentable {
+  node: <T = EntryPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface EntryEdgeSubscription
+  extends Promise<AsyncIterator<EntryEdge>>,
+    Fragmentable {
+  node: <T = EntrySubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserPreviousValues {
@@ -724,25 +787,128 @@ export interface UserPreviousValuesSubscription
   class: () => Promise<AsyncIterator<String>>;
 }
 
-export interface PurchaseConnection {
-  pageInfo: PageInfo;
-  edges: PurchaseEdge[];
+export interface AggregateEntry {
+  count: Int;
 }
 
-export interface PurchaseConnectionPromise
-  extends Promise<PurchaseConnection>,
+export interface AggregateEntryPromise
+  extends Promise<AggregateEntry>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PurchaseEdge>>() => T;
-  aggregate: <T = AggregatePurchasePromise>() => T;
+  count: () => Promise<Int>;
 }
 
-export interface PurchaseConnectionSubscription
-  extends Promise<AsyncIterator<PurchaseConnection>>,
+export interface AggregateEntrySubscription
+  extends Promise<AsyncIterator<AggregateEntry>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PurchaseEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePurchaseSubscription>() => T;
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface PurchaseSubscriptionPayload {
+  mutation: MutationType;
+  node: Purchase;
+  updatedFields: String[];
+  previousValues: PurchasePreviousValues;
+}
+
+export interface PurchaseSubscriptionPayloadPromise
+  extends Promise<PurchaseSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PurchasePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PurchasePreviousValuesPromise>() => T;
+}
+
+export interface PurchaseSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PurchaseSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PurchaseSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PurchasePreviousValuesSubscription>() => T;
+}
+
+export interface PurchasePreviousValues {
+  id: ID_Output;
+  description: String;
+  change: String;
+  createdAt: DateTimeOutput;
+}
+
+export interface PurchasePreviousValuesPromise
+  extends Promise<PurchasePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  description: () => Promise<String>;
+  change: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PurchasePreviousValuesSubscription
+  extends Promise<AsyncIterator<PurchasePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  description: () => Promise<AsyncIterator<String>>;
+  change: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface AggregateUser {
+  count: Int;
+}
+
+export interface AggregateUserPromise
+  extends Promise<AggregateUser>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUser>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface UserEdge {
+  node: User;
+  cursor: String;
+}
+
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
+    Fragmentable {
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
+}
+
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
+}
+
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -766,6 +932,25 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PurchaseEdge {
+  node: Purchase;
+  cursor: String;
+}
+
+export interface PurchaseEdgePromise
+  extends Promise<PurchaseEdge>,
+    Fragmentable {
+  node: <T = PurchasePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PurchaseEdgeSubscription
+  extends Promise<AsyncIterator<PurchaseEdge>>,
+    Fragmentable {
+  node: <T = PurchaseSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface User {
@@ -816,160 +1001,6 @@ export interface UserSubscription
     last?: Int;
   }) => T;
   class: () => Promise<AsyncIterator<String>>;
-}
-
-export interface Purchase {
-  id: ID_Output;
-  description: String;
-  change: String;
-  createdAt: DateTimeOutput;
-}
-
-export interface PurchasePromise extends Promise<Purchase>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  description: () => Promise<String>;
-  change: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PurchaseSubscription
-  extends Promise<AsyncIterator<Purchase>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  description: () => Promise<AsyncIterator<String>>;
-  change: () => Promise<AsyncIterator<String>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
-    Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface EntryConnection {
-  pageInfo: PageInfo;
-  edges: EntryEdge[];
-}
-
-export interface EntryConnectionPromise
-  extends Promise<EntryConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<EntryEdge>>() => T;
-  aggregate: <T = AggregateEntryPromise>() => T;
-}
-
-export interface EntryConnectionSubscription
-  extends Promise<AsyncIterator<EntryConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<EntryEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateEntrySubscription>() => T;
-}
-
-export interface AggregateEntry {
-  count: Int;
-}
-
-export interface AggregateEntryPromise
-  extends Promise<AggregateEntry>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateEntrySubscription
-  extends Promise<AsyncIterator<AggregateEntry>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface UserEdge {
-  node: User;
-  cursor: String;
-}
-
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
-    Fragmentable {
-  node: <T = UserSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface EntryEdge {
-  node: Entry;
-  cursor: String;
-}
-
-export interface EntryEdgePromise extends Promise<EntryEdge>, Fragmentable {
-  node: <T = EntryPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface EntryEdgeSubscription
-  extends Promise<AsyncIterator<EntryEdge>>,
-    Fragmentable {
-  node: <T = EntrySubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PurchasePreviousValues {
-  id: ID_Output;
-  description: String;
-  change: String;
-  createdAt: DateTimeOutput;
-}
-
-export interface PurchasePreviousValuesPromise
-  extends Promise<PurchasePreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  description: () => Promise<String>;
-  change: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
-}
-
-export interface PurchasePreviousValuesSubscription
-  extends Promise<AsyncIterator<PurchasePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  description: () => Promise<AsyncIterator<String>>;
-  change: () => Promise<AsyncIterator<String>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface PurchaseEdge {
-  node: Purchase;
-  cursor: String;
-}
-
-export interface PurchaseEdgePromise
-  extends Promise<PurchaseEdge>,
-    Fragmentable {
-  node: <T = PurchasePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface PurchaseEdgeSubscription
-  extends Promise<AsyncIterator<PurchaseEdge>>,
-    Fragmentable {
-  node: <T = PurchaseSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface EntryPreviousValues {
@@ -1047,54 +1078,71 @@ export interface EntrySubscription
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface PurchaseSubscriptionPayload {
-  mutation: MutationType;
-  node: Purchase;
-  updatedFields: String[];
-  previousValues: PurchasePreviousValues;
+export interface EntryConnection {
+  pageInfo: PageInfo;
+  edges: EntryEdge[];
 }
 
-export interface PurchaseSubscriptionPayloadPromise
-  extends Promise<PurchaseSubscriptionPayload>,
+export interface EntryConnectionPromise
+  extends Promise<EntryConnection>,
     Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = PurchasePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = PurchasePreviousValuesPromise>() => T;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<EntryEdge>>() => T;
+  aggregate: <T = AggregateEntryPromise>() => T;
 }
 
-export interface PurchaseSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<PurchaseSubscriptionPayload>>,
+export interface EntryConnectionSubscription
+  extends Promise<AsyncIterator<EntryConnection>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = PurchaseSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = PurchasePreviousValuesSubscription>() => T;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<EntryEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateEntrySubscription>() => T;
 }
 
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
+export interface Purchase {
+  id: ID_Output;
+  description: String;
+  change: String;
+  createdAt: DateTimeOutput;
 }
 
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
+export interface PurchasePromise extends Promise<Purchase>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  description: () => Promise<String>;
+  change: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  postedBy: <T = UserPromise>() => T;
+}
+
+export interface PurchaseSubscription
+  extends Promise<AsyncIterator<Purchase>>,
     Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  description: () => Promise<AsyncIterator<String>>;
+  change: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  postedBy: <T = UserSubscription>() => T;
 }
 
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+export interface PurchaseConnection {
+  pageInfo: PageInfo;
+  edges: PurchaseEdge[];
+}
+
+export interface PurchaseConnectionPromise
+  extends Promise<PurchaseConnection>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PurchaseEdge>>() => T;
+  aggregate: <T = AggregatePurchasePromise>() => T;
+}
+
+export interface PurchaseConnectionSubscription
+  extends Promise<AsyncIterator<PurchaseConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PurchaseEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePurchaseSubscription>() => T;
 }
 
 export interface AggregatePurchase {
@@ -1134,21 +1182,17 @@ export interface UserConnectionSubscription
   aggregate: <T = AggregateUserSubscription>() => T;
 }
 
-export interface AggregateUser {
-  count: Int;
-}
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
 
-export interface AggregateUserPromise
-  extends Promise<AggregateUser>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
+export type Long = string;
 
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUser>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
+/*
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+*/
+export type String = string;
 
 /*
 DateTime scalar input type, allowing Date
@@ -1160,13 +1204,6 @@ DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
 
-export type Long = string;
-
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
-*/
-export type Int = number;
-
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
@@ -1174,14 +1211,9 @@ export type ID_Input = string | number;
 export type ID_Output = string;
 
 /*
-The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
 */
-export type String = string;
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
+export type Int = number;
 
 /**
  * Model Metadata

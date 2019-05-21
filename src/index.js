@@ -5,13 +5,15 @@ const Mutation = require('./resolvers/Mutation')
 const Subscription = require('./resolvers/Subscription')
 const User = require('./resolvers/User')
 const Entry = require('./resolvers/Entry')
+const Purchase = require('./resolvers/Purchase')
 
 const resolvers = {
   Query,
   Mutation,
   Subscription,
   User,
-  Entry
+  Entry,
+  Purchase
 }
 
 const server = new GraphQLServer({

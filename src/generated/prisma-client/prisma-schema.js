@@ -305,6 +305,7 @@ type Purchase {
   description: String!
   change: String!
   createdAt: DateTime!
+  postedBy: User!
 }
 
 type PurchaseConnection {
@@ -317,6 +318,7 @@ input PurchaseCreateInput {
   id: ID
   description: String!
   change: String!
+  postedBy: UserCreateOneInput!
 }
 
 type PurchaseEdge {
@@ -363,6 +365,7 @@ input PurchaseSubscriptionWhereInput {
 input PurchaseUpdateInput {
   description: String
   change: String
+  postedBy: UserUpdateOneRequiredInput
 }
 
 input PurchaseUpdateManyMutationInput {
@@ -421,6 +424,7 @@ input PurchaseWhereInput {
   createdAt_lte: DateTime
   createdAt_gt: DateTime
   createdAt_gte: DateTime
+  postedBy: UserWhereInput
   AND: [PurchaseWhereInput!]
   OR: [PurchaseWhereInput!]
   NOT: [PurchaseWhereInput!]
@@ -475,6 +479,11 @@ input UserCreateInput {
   balance: Int
   log: EntryCreateManyWithoutPostedByInput
   class: String
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutLogInput {
@@ -542,6 +551,16 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  name: String
+  email: String
+  parentEmail: String
+  password: String
+  balance: Int
+  log: EntryUpdateManyWithoutPostedByInput
+  class: String
+}
+
 input UserUpdateInput {
   name: String
   email: String
@@ -561,6 +580,13 @@ input UserUpdateManyMutationInput {
   class: String
 }
 
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  connect: UserWhereUniqueInput
+}
+
 input UserUpdateOneRequiredWithoutLogInput {
   create: UserCreateWithoutLogInput
   update: UserUpdateWithoutLogDataInput
@@ -575,6 +601,11 @@ input UserUpdateWithoutLogDataInput {
   password: String
   balance: Int
   class: String
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithoutLogInput {

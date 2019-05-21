@@ -3,6 +3,13 @@ const userUpdates = async (root, args, ctx) =>
     .user({ mutation_in: ['CREATED', 'UPDATED'] })
     .node()
 
+const purchasesUpdate = async (root, args, ctx) =>
+  await ctx.prisma.$subscribe
+    .purchase({
+      mutation_in: ['CREATED']
+    })
+    .node()
+
 const dashboard = {
   subscribe: userUpdates,
   resolve: payload => {
@@ -10,6 +17,13 @@ const dashboard = {
   }
 }
 
+const purchase = {
+  subscribe: purchasesUpdate,
+  resolve: payload => {
+    return payload
+  }
+}
 module.exports = {
-  dashboard
+  dashboard,
+  purchase
 }

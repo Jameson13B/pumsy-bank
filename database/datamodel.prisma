@@ -22,4 +22,5 @@ type Purchase {
   description: String!
   change: String!
   createdAt: DateTime! @createdAt
+  postedBy: User!
 }

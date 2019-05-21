@@ -4,9 +4,14 @@ const usersByClass = async (root, args, ctx) => {
   ctx.prisma.users({ where: { class: args.class } })
 }
 const purchases = async (root, args, ctx) => {
-  return await ctx.prisma.purchases({
-    where: { createdAt: args.filter }
-  })
+  const start = args.start + 'T00:00:00-07:00'
+  const end = args.end + 'T23:59:59-07:00'
+  const where =
+    args.start && args.end
+      ? { OR: [{ createdAt_gte: start }, { createdAt_lte: end }] }
+      : {}
+  const purchases = await ctx.prisma.purchases({ where })
+  return purchases
 }
 
 module.exports = {
