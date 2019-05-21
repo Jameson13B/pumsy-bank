@@ -97,18 +97,26 @@ const removePoints = async (root, args, ctx) => {
 const purchase = async (root, args, ctx) => {
   // Update User Log and Balance
   const balance = await ctx.prisma.user({ id: args.id }).balance()
-  return await ctx.prisma.updateUser({
-    where: { id: args.id },
-    data: {
-      balance: balance - args.points,
-      log: {
-        create: {
-          change: `-${args.points}`,
-          description: `${args.description}`
+  try {
+    await ctx.prisma.createPurchase({
+      description: args.description,
+      change: args.points
+    })
+    return await ctx.prisma.updateUser({
+      where: { id: args.id },
+      data: {
+        balance: balance - args.points,
+        log: {
+          create: {
+            change: `-${args.points}`,
+            description: `${args.description}`
+          }
         }
       }
-    }
-  })
+    })
+  } catch (err) {
+    return err
+  }
 }
 
 module.exports = {

@@ -16,3 +16,10 @@ type Entry {
   postedBy: User!
   createdAt: DateTime! @createdAt
 }
+
+type Purchase {
+  id: ID! @id
+  description: String!
+  change: String!
+  createdAt: DateTime! @createdAt
+}

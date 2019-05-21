@@ -7,6 +7,10 @@ module.exports = {
   count: Int!
 }
 
+type AggregatePurchase {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -265,6 +269,12 @@ type Mutation {
   upsertEntry(where: EntryWhereUniqueInput!, create: EntryCreateInput!, update: EntryUpdateInput!): Entry!
   deleteEntry(where: EntryWhereUniqueInput!): Entry
   deleteManyEntries(where: EntryWhereInput): BatchPayload!
+  createPurchase(data: PurchaseCreateInput!): Purchase!
+  updatePurchase(data: PurchaseUpdateInput!, where: PurchaseWhereUniqueInput!): Purchase
+  updateManyPurchases(data: PurchaseUpdateManyMutationInput!, where: PurchaseWhereInput): BatchPayload!
+  upsertPurchase(where: PurchaseWhereUniqueInput!, create: PurchaseCreateInput!, update: PurchaseUpdateInput!): Purchase!
+  deletePurchase(where: PurchaseWhereUniqueInput!): Purchase
+  deleteManyPurchases(where: PurchaseWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -290,10 +300,143 @@ type PageInfo {
   endCursor: String
 }
 
+type Purchase {
+  id: ID!
+  description: String!
+  change: String!
+  createdAt: DateTime!
+}
+
+type PurchaseConnection {
+  pageInfo: PageInfo!
+  edges: [PurchaseEdge]!
+  aggregate: AggregatePurchase!
+}
+
+input PurchaseCreateInput {
+  id: ID
+  description: String!
+  change: String!
+}
+
+type PurchaseEdge {
+  node: Purchase!
+  cursor: String!
+}
+
+enum PurchaseOrderByInput {
+  id_ASC
+  id_DESC
+  description_ASC
+  description_DESC
+  change_ASC
+  change_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type PurchasePreviousValues {
+  id: ID!
+  description: String!
+  change: String!
+  createdAt: DateTime!
+}
+
+type PurchaseSubscriptionPayload {
+  mutation: MutationType!
+  node: Purchase
+  updatedFields: [String!]
+  previousValues: PurchasePreviousValues
+}
+
+input PurchaseSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PurchaseWhereInput
+  AND: [PurchaseSubscriptionWhereInput!]
+  OR: [PurchaseSubscriptionWhereInput!]
+  NOT: [PurchaseSubscriptionWhereInput!]
+}
+
+input PurchaseUpdateInput {
+  description: String
+  change: String
+}
+
+input PurchaseUpdateManyMutationInput {
+  description: String
+  change: String
+}
+
+input PurchaseWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  change: String
+  change_not: String
+  change_in: [String!]
+  change_not_in: [String!]
+  change_lt: String
+  change_lte: String
+  change_gt: String
+  change_gte: String
+  change_contains: String
+  change_not_contains: String
+  change_starts_with: String
+  change_not_starts_with: String
+  change_ends_with: String
+  change_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [PurchaseWhereInput!]
+  OR: [PurchaseWhereInput!]
+  NOT: [PurchaseWhereInput!]
+}
+
+input PurchaseWhereUniqueInput {
+  id: ID
+}
+
 type Query {
   entry(where: EntryWhereUniqueInput!): Entry
   entries(where: EntryWhereInput, orderBy: EntryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Entry]!
   entriesConnection(where: EntryWhereInput, orderBy: EntryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EntryConnection!
+  purchase(where: PurchaseWhereUniqueInput!): Purchase
+  purchases(where: PurchaseWhereInput, orderBy: PurchaseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Purchase]!
+  purchasesConnection(where: PurchaseWhereInput, orderBy: PurchaseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PurchaseConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -302,6 +445,7 @@ type Query {
 
 type Subscription {
   entry(where: EntrySubscriptionWhereInput): EntrySubscriptionPayload
+  purchase(where: PurchaseSubscriptionWhereInput): PurchaseSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 

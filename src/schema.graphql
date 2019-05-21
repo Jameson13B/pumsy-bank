@@ -4,6 +4,7 @@ type Query {
   users: [User!]!
   user(id: ID!): User!
   usersByClass(class: String!): [User!]!
+  purchases(filter: String): [Purchase!]!
 }
 
 type Mutation {
@@ -14,7 +15,7 @@ type Mutation {
   changePassword(id: ID!, password: String!): String!
   addPoints(id: ID!, points: Int!, description: String): User!
   removePoints(id: ID!, points: Int!, description: String): User!
-  purchase(id: ID!, points: Int!, description: String): User!
+  purchase(id: ID!, points: String!, description: String): User!
 }
 
 type Subscription {
@@ -43,4 +44,11 @@ type User {
   balance: Int!
   log: [Entry]!
   class: String!
+}
+
+type Purchase {
+  id: ID!
+  description: String!
+  change: String!
+  createdAt: DateTime!
 }
