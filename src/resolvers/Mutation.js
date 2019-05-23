@@ -95,16 +95,18 @@ const removePoints = async (root, args, ctx) => {
   return user
 }
 const purchase = async (root, args, ctx) => {
+  // Login Protected Route
+  const userId = getUserId(ctx)
   // Update User Log and Balance
-  const balance = await ctx.prisma.user({ id: args.id }).balance()
+  const balance = await ctx.prisma.user({ id: userId }).balance()
   try {
     await ctx.prisma.createPurchase({
       description: args.description,
       change: args.points,
-      postedBy: { connect: { id: args.id } }
+      postedBy: { connect: { id: userId } }
     })
     return await ctx.prisma.updateUser({
-      where: { id: args.id },
+      where: { id: userId },
       data: {
         balance: balance - args.points,
         log: {

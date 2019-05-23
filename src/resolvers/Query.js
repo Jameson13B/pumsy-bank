@@ -8,7 +8,7 @@ const purchases = async (root, args, ctx) => {
   const end = args.end + 'T23:59:59-07:00'
   const where =
     args.start && args.end
-      ? { OR: [{ createdAt_gte: start }, { createdAt_lte: end }] }
+      ? { AND: [{ createdAt_gte: start }, { createdAt_lte: end }] }
       : {}
   const purchases = await ctx.prisma.purchases({ where })
   return purchases
