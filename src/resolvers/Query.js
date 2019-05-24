@@ -1,15 +1,15 @@
 const { getUserId } = require('../utils')
 
 const users = (root, args, ctx) => ctx.prisma.users()
-const user = (root, args, ctx) => {
+const user = async (root, args, ctx) => {
   // Get ID from user
   let userId = null
   if (args.id) {
     userId = args.id
   } else {
-    userId = getUserId(ctx)
+    userId = await getUserId(ctx)
   }
-  return ctx.prisma.user({ id: userId })
+  return await ctx.prisma.user({ id: userId })
 }
 const usersByClass = async (root, args, ctx) => {
   ctx.prisma.users({ where: { class: args.class } })

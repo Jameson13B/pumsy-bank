@@ -112,7 +112,7 @@ const purchase = async (root, args, ctx) => {
         log: {
           create: {
             change: `-${args.points}`,
-            description: `${args.description}`
+            description: `Purchased: ${args.description}`
           }
         }
       }
