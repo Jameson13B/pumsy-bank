@@ -3,7 +3,7 @@ scalar DateTime
 type Query {
   users: [User!]!
   user(id: ID): User!
-  usersByClass(class: String!): [User!]!
+  userLog(start: DateTime, end: DateTime, id: ID!): [Entry]!
   purchases(start: DateTime, end: DateTime): [Purchase!]!
 }
 
@@ -32,7 +32,7 @@ type Entry {
   id: ID!
   change: String!
   description: String!
-  postedBy: User!
+  postedBy: User
   createdAt: DateTime!
 }
 
@@ -52,5 +52,5 @@ type Purchase {
   description: String!
   change: String!
   createdAt: DateTime!
-  postedBy: User!
+  postedBy: User
 }

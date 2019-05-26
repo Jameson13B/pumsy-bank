@@ -318,10 +318,12 @@ export interface EntryWhereInput {
   NOT?: EntryWhereInput[] | EntryWhereInput;
 }
 
-export interface UserUpdateOneRequiredInput {
+export interface UserUpdateOneInput {
   create?: UserCreateInput;
   update?: UserUpdateDataInput;
   upsert?: UserUpsertNestedInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
   connect?: UserWhereUniqueInput;
 }
 
@@ -354,7 +356,7 @@ export interface EntryCreateInput {
   id?: ID_Input;
   change: String;
   description: String;
-  postedBy: UserCreateOneWithoutLogInput;
+  postedBy?: UserCreateOneWithoutLogInput;
 }
 
 export type PurchaseWhereUniqueInput = AtLeastOne<{
@@ -492,7 +494,7 @@ export interface EntryScalarWhereInput {
 export interface EntryUpdateInput {
   change?: String;
   description?: String;
-  postedBy?: UserUpdateOneRequiredWithoutLogInput;
+  postedBy?: UserUpdateOneWithoutLogInput;
 }
 
 export interface EntryUpdateWithoutPostedByDataInput {
@@ -500,10 +502,12 @@ export interface EntryUpdateWithoutPostedByDataInput {
   description?: String;
 }
 
-export interface UserUpdateOneRequiredWithoutLogInput {
+export interface UserUpdateOneWithoutLogInput {
   create?: UserCreateWithoutLogInput;
   update?: UserUpdateWithoutLogDataInput;
   upsert?: UserUpsertWithoutLogInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
   connect?: UserWhereUniqueInput;
 }
 
@@ -515,7 +519,7 @@ export interface EntryUpdateWithWhereUniqueWithoutPostedByInput {
 export interface PurchaseUpdateInput {
   description?: String;
   change?: String;
-  postedBy?: UserUpdateOneRequiredInput;
+  postedBy?: UserUpdateOneInput;
 }
 
 export interface EntrySubscriptionWhereInput {
@@ -675,7 +679,7 @@ export interface PurchaseCreateInput {
   id?: ID_Input;
   description: String;
   change: String;
-  postedBy: UserCreateOneInput;
+  postedBy?: UserCreateOneInput;
 }
 
 export interface EntryCreateWithoutPostedByInput {

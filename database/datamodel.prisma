@@ -13,7 +13,7 @@ type Entry {
   id: ID! @id
   change: String!
   description: String!
-  postedBy: User!
+  postedBy: User
   createdAt: DateTime! @createdAt
 }
 
@@ -22,5 +22,5 @@ type Purchase {
   description: String!
   change: String!
   createdAt: DateTime! @createdAt
-  postedBy: User!
+  postedBy: User
 }

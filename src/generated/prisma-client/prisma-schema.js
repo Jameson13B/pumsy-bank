@@ -25,7 +25,7 @@ type Entry {
   id: ID!
   change: String!
   description: String!
-  postedBy: User!
+  postedBy: User
   createdAt: DateTime!
 }
 
@@ -39,7 +39,7 @@ input EntryCreateInput {
   id: ID
   change: String!
   description: String!
-  postedBy: UserCreateOneWithoutLogInput!
+  postedBy: UserCreateOneWithoutLogInput
 }
 
 input EntryCreateManyWithoutPostedByInput {
@@ -153,7 +153,7 @@ input EntrySubscriptionWhereInput {
 input EntryUpdateInput {
   change: String
   description: String
-  postedBy: UserUpdateOneRequiredWithoutLogInput
+  postedBy: UserUpdateOneWithoutLogInput
 }
 
 input EntryUpdateManyDataInput {
@@ -305,7 +305,7 @@ type Purchase {
   description: String!
   change: String!
   createdAt: DateTime!
-  postedBy: User!
+  postedBy: User
 }
 
 type PurchaseConnection {
@@ -318,7 +318,7 @@ input PurchaseCreateInput {
   id: ID
   description: String!
   change: String!
-  postedBy: UserCreateOneInput!
+  postedBy: UserCreateOneInput
 }
 
 type PurchaseEdge {
@@ -365,7 +365,7 @@ input PurchaseSubscriptionWhereInput {
 input PurchaseUpdateInput {
   description: String
   change: String
-  postedBy: UserUpdateOneRequiredInput
+  postedBy: UserUpdateOneInput
 }
 
 input PurchaseUpdateManyMutationInput {
@@ -580,17 +580,21 @@ input UserUpdateManyMutationInput {
   class: String
 }
 
-input UserUpdateOneRequiredInput {
+input UserUpdateOneInput {
   create: UserCreateInput
   update: UserUpdateDataInput
   upsert: UserUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
   connect: UserWhereUniqueInput
 }
 
-input UserUpdateOneRequiredWithoutLogInput {
+input UserUpdateOneWithoutLogInput {
   create: UserCreateWithoutLogInput
   update: UserUpdateWithoutLogDataInput
   upsert: UserUpsertWithoutLogInput
+  delete: Boolean
+  disconnect: Boolean
   connect: UserWhereUniqueInput
 }
 
