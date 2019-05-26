@@ -12,19 +12,19 @@ const user = async (root, args, ctx) => {
   return await ctx.prisma.user({ id: userId })
 }
 const userLog = async (root, args, ctx) => {
-  const start = args.start + 'T00:00:00-07:00'
-  const end = args.end + 'T23:59:59-07:00'
+  const start = args.start + 'T00:00:00Z'
+  const end = args.end + 'T23:59:59Z'
   const where =
     args.start && args.end
       ? {
           AND: [{ createdAt_gte: start }, { createdAt_lte: end }]
         }
       : {}
-  return await ctx.prisma.user({ id: args.id }).log()
+  return await ctx.prisma.user({ id: args.id }).log({ where })
 }
 const purchases = async (root, args, ctx) => {
-  const start = args.start + 'T00:00:00-07:00'
-  const end = args.end + 'T23:59:59-07:00'
+  const start = args.start + 'T00:00:00Z'
+  const end = args.end + 'T23:59:59Z'
   const where =
     args.start && args.end
       ? { AND: [{ createdAt_gte: start }, { createdAt_lte: end }] }
