@@ -20,7 +20,15 @@ const userLog = async (root, args, ctx) => {
           AND: [{ createdAt_gte: start }, { createdAt_lte: end }]
         }
       : {}
-  return await ctx.prisma.user({ id: args.id }).log({ where })
+  let user
+  // If no ID, return the first users ID
+  // Else send back logs
+  if (!args.id) {
+    user = await ctx.prisma.users()
+  }
+  return args.id
+    ? await ctx.prisma.user({ id: args.id }).log({ where })
+    : [{ id: user[0].id, change: '', description: '', createdAt: '' }]
 }
 const purchases = async (root, args, ctx) => {
   const start = args.start + 'T00:00:00Z'
