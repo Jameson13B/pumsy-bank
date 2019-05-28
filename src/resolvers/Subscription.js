@@ -1,8 +1,7 @@
 const userUpdates = async (root, args, ctx) =>
-  await ctx.prisma.$subscribe
-    .user({ mutation_in: ['CREATED', 'UPDATED'] })
-    .node()
-
+  await ctx.prisma.$subscribe.user({
+    mutation_in: ['CREATED', 'UPDATED', 'DELETED']
+  })
 const purchasesUpdate = async (root, args, ctx) =>
   await ctx.prisma.$subscribe
     .purchase({
@@ -13,7 +12,8 @@ const purchasesUpdate = async (root, args, ctx) =>
 const dashboard = {
   subscribe: userUpdates,
   resolve: payload => {
-    return payload
+    if (payload.mutation === 'DELETED') return payload.previousValues
+    return payload.node
   }
 }
 
