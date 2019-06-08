@@ -18,4 +18,12 @@
 > 
 > ```prisma deploy```
 
+## Run
+
+> Run start script:  
+> 
+> ```yarn start``` or ```npm run start```
+
+**This will run the server and database. You will need to run the client(parent or teacher) as well.*
+
 Created by [Jameson Brown](https://www.jamesonb.com)
