@@ -6,22 +6,22 @@
 
 ## Install
 
-> Install packages:  
-> 
+Install packages:  
+
 > ```yarn``` or ```npm install```
 
-> Create/run docker:  
-> 
+Create/run docker:  
+
 > ```docker-compose up -d```
 
-> Deploy Prisma:  
-> 
+Deploy Prisma:  
+
 > ```prisma deploy```
 
 ## Run
 
-> Run start script:  
-> 
+Run start script:  
+
 > ```yarn start``` or ```npm run start```
 
 **This will run the server and database. You will need to run the client(parent or teacher) as well.*
