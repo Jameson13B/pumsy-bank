@@ -31,13 +31,9 @@ const userLog = async (root, args, ctx) => {
     : [{ id: user[0].id, change: '', description: '', createdAt: '' }]
 }
 const purchases = async (root, args, ctx) => {
-  const start = args.start + 'T00:00:00Z'
-  const end = args.end + 'T23:59:59Z'
-  const where =
-    args.start && args.end
-      ? { AND: [{ createdAt_gte: start }, { createdAt_lte: end }] }
-      : {}
-  const purchases = await ctx.prisma.purchases({ where })
+  const purchases = await ctx.prisma.purchases({
+    where: { createdAt_gte: args.start, createdAt_lt: args.end }
+  })
   return purchases
 }
 
