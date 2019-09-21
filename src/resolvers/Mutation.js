@@ -94,6 +94,46 @@ const removePoints = async (root, args, ctx) => {
   }
   return user
 }
+const addPointsByClass = async (root, args, ctx) => {
+  // Get users in class
+  const users = await ctx.prisma.users({ where: { class: args.class } })
+  // Update User Log and Balance
+  await users.forEach(async user => {
+    await ctx.prisma.updateUser({
+      where: { id: user.id },
+      data: {
+        balance: user.balance + args.points,
+        log: {
+          create: {
+            change: `+${args.points}`,
+            description: `${args.description}`
+          }
+        }
+      }
+    })
+  })
+  return `Updated ${users.length} users`
+}
+const removePointsByClass = async (root, args, ctx) => {
+  // Get users in class
+  const users = await ctx.prisma.users({ where: { class: args.class } })
+  // Update User Log and Balance
+  await users.forEach(async user => {
+    await ctx.prisma.updateUser({
+      where: { id: user.id },
+      data: {
+        balance: user.balance - args.points,
+        log: {
+          create: {
+            change: `-${args.points}`,
+            description: `${args.description}`
+          }
+        }
+      }
+    })
+  })
+  return `Updated ${users.length} users`
+}
 const purchase = async (root, args, ctx) => {
   // Login Protected Route
   const userId = getUserId(ctx)
@@ -130,5 +170,7 @@ module.exports = {
   changePassword,
   addPoints,
   removePoints,
+  addPointsByClass,
+  removePointsByClass,
   purchase
 }

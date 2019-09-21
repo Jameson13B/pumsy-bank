@@ -15,6 +15,8 @@ type Mutation {
   changePassword(id: ID!, password: String!): String!
   addPoints(id: ID!, points: Int!, description: String): User!
   removePoints(id: ID!, points: Int!, description: String): User!
+  addPointsByClass(class: String!, points: Int!, description: String): String!
+  removePointsByClass(class: String!, points: Int!, description: String): String!
   purchase(id: ID!, points: String!, description: String): User!
 }
 
